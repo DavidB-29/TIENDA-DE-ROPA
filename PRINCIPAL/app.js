@@ -1,0 +1,211 @@
+/*===================================================HERRAMIENTAS GLOBALES=====================================================================*/
+
+const pruebaDiv = document.getElementById("pruebaID")
+const botonVentana1 = document.getElementById("ventanaEmergente")
+const textoAlerta = document.getElementById("textoAler")
+const textoConfirmar = document.getElementById("textoConf")
+const textoAlerta2 = document.getElementById("textoAler2")
+const textoConfirmar2 = document.getElementById("textoConf2")
+const ventanaFiltrar = document.getElementById("ventanaFiltrarr")
+const ocultarVentana1 = document.getElementById("ocultarVentana")
+const ocultarAlerta = document.getElementById("ocultarAlertaID")
+ocultarAlerta.addEventListener("click", ()=>{
+    pruebaDiv.style.display = "none";
+})
+
+
+botonVentana1.addEventListener("click", () => {
+    ventanaFiltrar.classList.add("mostrar")
+})
+ocultarVentana1.addEventListener("click", () => {
+    ventanaFiltrar.classList.remove("mostrar")
+})
+
+
+
+/*=================================================MÉTODOS PARA LOS PRODUCTOS=======================================================*/
+
+class Métodos{
+    #existencias = 0
+    #enVenta = 0
+    mostrarExistencias(){
+        textoAlerta.innerHTML = ""
+        textoAlerta.innerHTML = `La cantidad de existencias actuales de ${this.Name} es de ${this.#existencias}`
+    }
+    mostrarEnVentas(){
+        textoAlerta2.innerHTML = ""
+        textoAlerta2.innerHTML= `La cantidad de articulos en venta de ${this.Name} es de ${this.#enVenta}`
+    }
+   get agregarStocks(){
+        return this.#existencias
+    }
+    set agregarStocks(value){
+        if(typeof value !== "number" || Number.isNaN(value) || value <= 0){
+           throw new Error `El número del stock debe ser mayor a 0`
+        }
+        this.#existencias += value
+    }
+       get ponerEnVenta(){
+        return this.#enVenta
+    }
+    set ponerEnVenta(value){
+        if(typeof value !== "number" || Number.isNaN(value) || value <= 0){
+           throw new Error `El número seleccionado debe ser mayor a 0`
+        }else if(this.#existencias <= 0){
+            throw new Error `No contamos con producto en existencias`
+        }
+        this.#enVenta += value
+        this.#existencias -= value
+    }
+        agregarCarrito(){
+        textoAlerta.innerHTML = ""
+        textoAlerta2.innerHTML = ""
+        textoConfirmar.innerHTML = ""
+        textoAlerta2.innerHTML = ""
+        if(this.#enVenta <= 0){
+            pruebaDiv.style.display = "block"
+            textoAlerta.innerHTML = `${this.Descripción} por el momento se encuentra agotado`
+        }else{
+            textoConfirmar.innerHTML = `Has agregado 1 ${this.Descripción} a tu carrito`
+            this.#enVenta--
+        }
+    }
+};
+/*===================================================CREACIÓN DE PRODUCTOS==============================================================================*/
+
+class Stocks extends Métodos{
+    static productosEnExistencias = []
+    #textoDescripcion = "";
+    #imagenMostrar = ""
+    constructor(name, descripción, precio, imagen, tipo){
+        super()
+        this.Name = name
+        this.Descripción = descripción
+        this.Precio = precio
+        this.Tipo = tipo
+        this.imagen = imagen
+        Stocks.productosEnExistencias.push(this)
+    }
+    asignarTexto(){
+        let array = Object.entries(this)
+        let descripción = []
+        let lineaFormada;
+        for(let i = 0; i < array.length - 2; i++){
+            const clave = array[i][0]
+            const valor = array[i][1]
+             if(i === 0){
+                lineaFormada = `${valor}`
+             }else{
+            lineaFormada = `${clave}:      ${valor}`
+             }
+            descripción.push(lineaFormada)
+        }
+        this.#textoDescripcion = descripción.join("<br><br>")
+    }
+    asignarImg(){
+        this.#imagenMostrar = this.imagen
+    }
+    exponer(){
+        this.asignarTexto()
+        this.asignarImg()
+        this.render(this.imagen, this.#textoDescripcion)
+    }
+}
+
+
+/*==================================================MIXINS PARA LOS PRODUCTOS====================================================================================*/
+
+let RenderMixin = {
+    render(img, text) {
+
+    let contenedor = document.createElement("div")
+    contenedor.classList.add("producto-card")
+    contenedor.setAttribute("data-tipo", this.Tipo)
+
+    let imagen = document.createElement("img")
+    let texto = document.createElement("p")
+    let botonC = document.createElement("button")
+
+    botonC.innerText = "Agregar al carrito"
+    
+    botonC.classList.add("botonAddtoCarro")
+    botonC.addEventListener("click", () => this.agregarCarrito())
+
+    imagen.src = img
+    texto.innerHTML = text
+
+    contenedor.append(imagen)
+    contenedor.append(texto)
+    contenedor.append(botonC)
+    
+    const contenedorPadre = document.getElementById("productos-container")
+    contenedorPadre.append(contenedor)
+}
+};
+Object.assign(Métodos.prototype, RenderMixin)
+
+/*========================================================================================================================================================*/
+
+
+
+
+const botonFilCamisa = document.getElementById("botonCamisaManID");
+const botonFilCamiseta = document.getElementById("botonCamisetaManID");
+const botonFilPantalon = document.getElementById("botonPantalonManID")
+const botonConjuntoMan = document.getElementById("botonConjuntoManID")
+const botonShortsMan = document.getElementById("botonShortsManID")
+const botonMostrarTodo = document.getElementById("botonMostrarTodoID")
+
+botonFilCamisa.addEventListener("click", () => filtrarPrendas("Camisa Hombre"))
+botonFilCamiseta.addEventListener("click", () => filtrarPrendas("Camiseta Hombre"))
+botonFilPantalon.addEventListener("click", () => filtrarPrendas("Pantalones Hombre"))
+botonConjuntoMan.addEventListener("click", () => filtrarPrendas("Conjunto Hombre"))
+botonShortsMan.addEventListener("click", ()=> filtrarPrendas("Shorts Hombre"))
+
+botonMostrarTodo.addEventListener("click", ()=>{
+    document.querySelectorAll(".producto-card").forEach(card =>{
+        card.style.display = "block"
+        ventanaFiltrar.classList.remove("mostrar")
+    })
+})
+
+function filtrarPrendas(tipoSeleccionado){
+function ocultar(){
+    document.querySelectorAll(".producto-card").forEach(card =>{
+        card.style.display = "none"
+    })
+}
+
+function filtrar(){
+    document.querySelectorAll(".producto-card").forEach(card =>{
+        const tipo = card.getAttribute("data-tipo")
+        if(tipoSeleccionado === tipo){
+            card.style.display = "block"
+        }
+    })
+}
+ocultar()
+filtrar()
+ventanaFiltrar.classList.remove("mostrar")
+};
+
+
+
+/*==========================================================================================================================================================*/
+const camisaNike = new Stocks("Camisa Nike", "Camiseta Nike Con Estilo", "$25.00", "imagenes/camisaNike.jpg", "Camiseta Hombre")
+camisaNike.exponer()
+const camisaTigre = new Stocks("Camisa Bershka", "Camisa Vintage Tiger", "$35.00", "imagenes/camisaBerTigre.jpg", "Camisa Hombre")
+camisaTigre.exponer()
+const camisaAdidas = new Stocks("Camisa Adidas", "Camiseta Adidas Con Estilo", "$35.00", "imagenes/camisaAdidas.jpg", "Camiseta Hombre")
+camisaAdidas.exponer()
+const PantalonesCuadriculados = new Stocks("Pantalones Bershka", "Pantalones Con Diseño De Cuadros", "$50.00", "imagenes/pantalonescuadrados.jpg", "Pantalones Hombre")
+PantalonesCuadriculados.exponer()
+const camisaRayada = new Stocks("Camisa Bershka", "Camisa Con Estilo a Rayas", "$30.00", "imagenes/camisaBerRayada.jpg", "Camisa Hombre")
+camisaRayada.exponer()
+const camisaMangas = new Stocks("Camisa Bershka", "Camisa Con Mangas", "$40.00", "imagenes/camisaBerMangas.jpg", "Camisa Hombre")
+camisaMangas.exponer()
+const conjuntoBerMorado = new Stocks("Conjunto Bershka", "Conjunto StreetWear", "$80.00", "imagenes/conjuntoBerMorado.jpg", "Conjunto Hombre")
+conjuntoBerMorado.exponer()
+const shortsBerCafe = new Stocks("Shorts Bershka", "Shorts Clásicos", "$25.00", "imagenes/shortBerCafe.jpg", "Shorts Hombre")
+shortsBerCafe.exponer()
+

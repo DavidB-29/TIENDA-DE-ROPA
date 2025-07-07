@@ -1,0 +1,107 @@
+html{
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+#title{
+  background-color: rgba(0, 0, 0, 0.5);
+    color: black;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+    font-size: 3rem;
+    box-sizing: border-box;
+}
+
+
+#productos-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 16px;
+  justify-content: center;
+  padding: 20px;
+}
+
+.producto-card {
+  border: 1px solid #ccc;
+  padding: 16px;
+  width: 200px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border-radius: 8px;
+  transition: box-shadow 0.5s ease;
+}
+.producto-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.producto-card:hover{
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
+}
+.textoMostrar{
+  text-align: center;
+  font-size: 1.5rem;
+}
+#ventanaEmergente{
+  margin: 2rem;
+  padding: 2px;
+}
+.botonAddtoCarro{
+  padding: 3px;
+  transition: background-color 0.3s ease;
+}
+.botonAddtoCarro:hover{
+  cursor: pointer;
+  color: cornflowerblue;
+}
+
+#ventanaFiltrarr{
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: -400px;
+  width: 400px;
+  height: 100%;
+  background-color:rgb(49, 49, 49);
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.5);
+  transition: left 0.5s ease;
+  padding: 20px;
+  z-index: 999;
+  color: white;
+}
+#ventanaFiltrarr.mostrar{
+  left: 0;
+}
+#ventanaFiltrarr > button {
+  font-size: 15px;
+  top: 10px;
+  left: 10px;
+  cursor: pointer;
+  margin-bottom: 5rem;
+}
+#formFilter{
+  background-color: #464545
+}
+#formFilter > button{
+  margin: 8px;
+  padding: 5px;
+}
+#formFilter p {
+  padding: 10px;
+}
+#formFilter :last-child{
+  margin-bottom: 200px;
+}
+#pruebaID{
+  position: fixed;        /* fija en la pantalla */
+  top: 50%;               /* centro vertical */
+  left: 50%;              /* centro horizontal */
+  transform: translate(-50%, -50%); /* ajuste exacto al centro */
+  background-color: white;
+  padding: 30px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+  z-index: 1000;
+  border-radius: 10px;
+  display: none;
+}
