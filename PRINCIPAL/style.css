@@ -1,21 +1,49 @@
+/*==============================================================***CSS***========================================================================================*/
 html{
-  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-style: italic;
+  margin: 0;
+  position: relative;
 }
 #title{
-  background-color: rgba(0, 0, 0, 0.5);
-    color: black;
-    margin: 0 auto;
+    position: sticky;
+    top: 0;
+    background-color: #9b9999;
+    color: rgb(12, 12, 12);
+    margin: 0;
+    width: 100%;
     padding: 2rem;
     text-align: center;
     font-size: 3rem;
     box-sizing: border-box;
+    animation: mejorarTema linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 600px;
+    z-index: 100;
+    
 }
 
-
+@keyframes mejorarTema {
+  to{
+    background-color: rgb(255, 255, 255, 0.1);
+    /*opacity: 0.8;*/
+    font-size: 1.8rem;
+    backdrop-filter: blur(5px);
+  }
+  
+}
+body{
+  background-color: rgb(223, 219, 214);
+  margin: 0;
+}
+#seccion{
+  display: grid;
+  grid-template-columns: 6fr 1fr;
+  justify-content: space-between;
+}
 #productos-container {
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
+  flex-flow: row wrap;
   gap: 16px;
   justify-content: center;
   padding: 20px;
@@ -28,16 +56,32 @@ html{
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
   text-align: center;
   border-radius: 8px;
-  transition: box-shadow 0.5s ease;
+  background-color: white;
+  transition: scale 0.3s ease;
+
+  &:hover{
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
+  scale: 1.04;
+}
 }
 .producto-card img {
   width: 100%;
   height: auto;
   border-radius: 4px;
 }
-
-.producto-card:hover{
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
+.producto-card2 {
+  border: 1px solid #ccc;
+  padding: 16px;
+  width: 200px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border-radius: 8px;
+  background-color: white;
+}
+.producto-card2 img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
 }
 .textoMostrar{
   text-align: center;
@@ -45,33 +89,82 @@ html{
 }
 #ventanaEmergente{
   margin: 2rem;
-  padding: 2px;
+  padding: 6px;
+  transition: background-color 0.3s ease;
+  border-radius: 10px;
+}
+#ventanaEmergente:hover{
+  cursor: pointer;
+  background-color: #afceda;
 }
 .botonAddtoCarro{
-  padding: 3px;
+  padding: 6px;
   transition: background-color 0.3s ease;
+  border-radius: 10px;
 }
 .botonAddtoCarro:hover{
   cursor: pointer;
-  color: cornflowerblue;
+  background-color: #afceda;
 }
 
 #ventanaFiltrarr{
   box-sizing: border-box;
   position: fixed;
   top: 0;
-  left: -400px;
-  width: 400px;
-  height: 100%;
-  background-color:rgb(49, 49, 49);
+  left: -300px;
+  width: 300px;
+  height: 83%;
+  background-color:rgb(226, 226, 226);
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.5);
   transition: left 0.5s ease;
   padding: 20px;
   z-index: 999;
-  color: white;
+  color: rgb(8, 8, 8);
+  border-radius: 7px;
 }
 #ventanaFiltrarr.mostrar{
   left: 0;
+}
+#ventanaFiltrarr2{
+  display: flex;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  right: -1200px;
+  width: 1200px;
+  height: 100%;
+  background-color:rgb(226, 226, 226);
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.5);
+  transition: left 0.5s ease;
+  padding: 20px;
+  z-index: 999;
+  color: rgb(8, 8, 8);
+  border-radius: 7px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+#ventanaFiltrarr2.mostrar2{
+  right: 0;
+}
+#ventanaCarroID{
+  display: flex;
+  margin: 80px;
+  gap: 15px;
+  flex-flow: row-reverse wrap;
+  overflow: scroll;
+  justify-content: center;
+}
+#ventanaFiltrarr2 > button{
+  color:black;
+  width: 90px;
+  height: 35px;
+  margin: 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+#ventanaFiltrarr2 > button:hover{
+  background-color:#afceda;
+  cursor: pointer;
 }
 #ventanaFiltrarr > button {
   font-size: 15px;
@@ -81,27 +174,104 @@ html{
   margin-bottom: 5rem;
 }
 #formFilter{
-  background-color: #464545
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(6, 1fr);
+  border-radius: 7px;
 }
 #formFilter > button{
   margin: 8px;
   padding: 5px;
+  height: 40px;
+  width: 150px;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
 }
+#formFilter button:hover{
+  cursor: pointer;
+  background-color: #afceda;
+}
+
 #formFilter p {
-  padding: 10px;
+  padding: 5px;
 }
 #formFilter :last-child{
-  margin-bottom: 200px;
+  margin-bottom: 100px;
+  padding: 5px;
 }
 #pruebaID{
-  position: fixed;        /* fija en la pantalla */
-  top: 50%;               /* centro vertical */
+  position: fixed;      /* fija en la pantalla */
+  top: 50%;              /* centro vertical */
   left: 50%;              /* centro horizontal */
-  transform: translate(-50%, -50%); /* ajuste exacto al centro */
-  background-color: white;
+  transform: translate(-50%, -50%);
+  background-color: rgb(255, 255, 255);
   padding: 30px;
   box-shadow: 0 0 15px rgba(0,0,0,0.4);
   z-index: 1000;
   border-radius: 10px;
   display: none;
+}
+#lateral{
+  background-color: rgb(223, 219, 214);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+}
+#lateral button{
+  position: fixed;
+  z-index: 998;
+  border-radius: 8px;
+  padding: 5px;
+  margin: 10px;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+
+  &:hover{
+  cursor: pointer;
+  background-color: #afceda;
+}
+}
+.carritoCargado{
+  animation: parpadear;
+  animation-duration: 2s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 3;
+
+}
+@keyframes parpadear {
+  0% {
+    background-color: white;
+  }
+  100% {
+    background-color: rgb(247, 115, 115);
+  }
+  
+}
+#textoCarrito{
+  font-size: 5rem;
+}
+#containerAlerta{
+  margin: 0;
+  display: flex;
+  justify-content: row-reverse;
+  background-color: rgb(252, 80, 80);
+  height: fit-content;
+}
+#mensajeAlerta{
+  background-color: rgb(247, 85, 85);
+  margin: 0;
+  padding: 0;
+  animation: mover;
+  animation-duration: 14s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+@keyframes mover {
+  from{
+    transform: translateY(0px);
+  }
+  to{
+    transform: translateX(1500px);
+  }
 }

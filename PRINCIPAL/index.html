@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,12 +8,17 @@
     <title>Document</title>
 </head>
 <body>
-    <header>
         <h1 id="title">TIENDA DE ROPA &#128374;</h1>
-    </header>
     <main>
+        <div id="containerAlerta">
+        <p id="mensajeAlerta">Página con fines educativos y no comerciales</p>
+        </div> 
         <button type="button" id="ventanaEmergente">FILTRAR PRODUCTOS</button>
+        <section id="seccion">
         <div id="productos-container">
+        </div>
+        <div id="lateral">
+            <button id="botonCarritoID">Ver Mi Carrito</button>
         </div>
         <div id="pruebaID">
             <p id="textoAler" class="textoMostrar"></p>
@@ -21,10 +27,11 @@
             <p id="textoConf2" class="textoMostrar"></p>
             <button id="ocultarAlertaID">OK</button>
         </div>
+        </section>
         <div id="ventanaFiltrarr" class="oculto">
             <button type="button" id="ocultarVentana">&#129044; OCULTAR</button>
             <form id="formFilter">
-                <p>PERMITENOS AYUDARTE CON TU BUSQUEDA!</p>
+                <p>¿BUSCAS ALGO EN ESPECIFICO?</p>
                 <button type="button" id="botonCamisaManID">CAMISAS PARA HOMBRE</button>
                 <button type="button" id="botonCamisetaManID">CAMISETAS PARA HOMBRE</button>
                 <button type="button" id="botonPantalonManID">PANTALONES PARA HOMBRE</button>
@@ -33,6 +40,13 @@
                 <button type="button" id="botonMostrarTodoID">MOSTRAR TODO</button>
             </form>
         </div>
+        <section id="ventanaFiltrarr2">
+            <button type="button" id="botonOcultarVC">Ocultar</button>
+            <div id="ventanaCarroID">
+                <h1 id="textoCarrito">Carrito Vacio</h1>
+            </div>
+            <button type="button" id="vaciarCarritoID">Vaciar Carrito</button>
+        </section>
     </main>
     <footer>
     </footer>

@@ -7,10 +7,18 @@ const textoConfirmar = document.getElementById("textoConf")
 const textoAlerta2 = document.getElementById("textoAler2")
 const textoConfirmar2 = document.getElementById("textoConf2")
 const ventanaFiltrar = document.getElementById("ventanaFiltrarr")
+const ventanaFiltrar2  = document.getElementById("ventanaFiltrarr2")
 const ocultarVentana1 = document.getElementById("ocultarVentana")
 const ocultarAlerta = document.getElementById("ocultarAlertaID")
+const botonCarrito = document.getElementById("botonCarritoID")
+const ventanaCarro = document.getElementById("ventanaCarroID")
+const botonOcultarVentCarr = document.getElementById("botonOcultarVC")
+const vaciarCarrito = document.getElementById("vaciarCarritoID")
+const textoCarro = document.getElementById("textoCarrito")
+
 ocultarAlerta.addEventListener("click", ()=>{
     pruebaDiv.style.display = "none";
+    botonCarrito.classList.remove("carritoCargado")
 })
 
 
@@ -21,13 +29,25 @@ ocultarVentana1.addEventListener("click", () => {
     ventanaFiltrar.classList.remove("mostrar")
 })
 
-
+botonCarrito.addEventListener("click", ()=>{
+    ventanaFiltrar2.classList.add("mostrar2")
+})
+botonOcultarVentCarr.addEventListener("click", ()=>{
+    ventanaFiltrar2.classList.remove("mostrar2")
+})
+vaciarCarrito.addEventListener("click", ()=>{
+    ventanaCarro.innerHTML = "";
+    ventanaCarro.append(textoCarro)
+    textoCarro.innerHTML = "Carrito Vacio"
+    botonCarrito.classList.remove("carritoCargado")
+})
 
 /*=================================================MÉTODOS PARA LOS PRODUCTOS=======================================================*/
 
 class Métodos{
     #existencias = 0
     #enVenta = 0
+    clon = ""
     mostrarExistencias(){
         textoAlerta.innerHTML = ""
         textoAlerta.innerHTML = `La cantidad de existencias actuales de ${this.Name} es de ${this.#existencias}`
@@ -57,7 +77,7 @@ class Métodos{
         this.#enVenta += value
         this.#existencias -= value
     }
-        agregarCarrito(){
+        agregarCarrito(boton){
         textoAlerta.innerHTML = ""
         textoAlerta2.innerHTML = ""
         textoConfirmar.innerHTML = ""
@@ -66,8 +86,20 @@ class Métodos{
             pruebaDiv.style.display = "block"
             textoAlerta.innerHTML = `${this.Descripción} por el momento se encuentra agotado`
         }else{
-            textoConfirmar.innerHTML = `Has agregado 1 ${this.Descripción} a tu carrito`
+            pruebaDiv.style.display = "block"
+            textoAlerta.innerHTML = `Has agregado 1 ${this.Descripción} a tu carrito`
             this.#enVenta--
+            const divProducto = boton.closest(".producto-card");
+             this.clon = divProducto.cloneNode(true);
+             this.clon.classList.remove("producto-card")
+            this.clon.classList.add("producto-card2")
+            const botonEliminar = this.clon.querySelector(".botonAddtoCarro");
+            if (botonEliminar) {
+            botonEliminar.remove();
+            }
+            textoCarro.innerHTML = ""
+            ventanaCarro.append(this.clon)
+            botonCarrito.classList.add("carritoCargado")
         }
     }
 };
@@ -114,7 +146,6 @@ class Stocks extends Métodos{
 
 
 /*==================================================MIXINS PARA LOS PRODUCTOS====================================================================================*/
-
 let RenderMixin = {
     render(img, text) {
 
@@ -126,10 +157,13 @@ let RenderMixin = {
     let texto = document.createElement("p")
     let botonC = document.createElement("button")
 
-    botonC.innerText = "Agregar al carrito"
+    botonC.innerText = "Agregar Al Carrito"
     
     botonC.classList.add("botonAddtoCarro")
-    botonC.addEventListener("click", () => this.agregarCarrito())
+    botonC.addEventListener("click", (e) => {
+        this.agregarCarrito(e.target);
+    }
+    )
 
     imagen.src = img
     texto.innerHTML = text
@@ -143,7 +177,6 @@ let RenderMixin = {
 }
 };
 Object.assign(Métodos.prototype, RenderMixin)
-
 /*========================================================================================================================================================*/
 
 
@@ -208,4 +241,39 @@ const conjuntoBerMorado = new Stocks("Conjunto Bershka", "Conjunto StreetWear", 
 conjuntoBerMorado.exponer()
 const shortsBerCafe = new Stocks("Shorts Bershka", "Shorts Clásicos", "$25.00", "imagenes/shortBerCafe.jpg", "Shorts Hombre")
 shortsBerCafe.exponer()
+shortsBerCafe.agregarStocks = 100
+shortsBerCafe.ponerEnVenta = 50
+const conjuntoNegro = new Stocks("Conjunto Bershka", "Conjunto AllBlack", "$85.00", "imagenes/conjuntonegroBer.jpg", "Conjunto Hombre")
+conjuntoNegro.exponer()
+const PantalonCaqui = new Stocks("Pantalones Bershka", "Pantalones Clásicos", "$35.00", "imagenes/PantalonCaquiBer.jpg", "Pantalones Hombre")
+PantalonCaqui.exponer()
+const VaquerosBer = new Stocks("Vaqueros Bershka", "Vaqueros Clásicos", "$45.00", "imagenes/VaquerosBer.jpg", "Pantalones Hombre")
+VaquerosBer.exponer()
+const CamisaCaquiBer = new Stocks("Camisa Bershka", "Camisa Clásica", "$35.00", "imagenes/CamisaCaquiBer.jpg", "Camisa Hombre")
+CamisaCaquiBer.exponer()
+const shortsBlancosBer = new Stocks("Shorts Bershka", "Shorts Con Diseño", "$30.00", "imagenes/shortsBlancosBer.jpg", "Shorts Hombre")
+shortsBlancosBer.exponer()
 
+/*=============================================================================================================================================================*/
+camisaNike.agregarStocks = 100
+camisaNike.ponerEnVenta = 50
+camisaAdidas.agregarStocks = 100
+camisaAdidas.ponerEnVenta = 50
+camisaTigre.agregarStocks = 100
+camisaTigre.ponerEnVenta = 50
+PantalonesCuadriculados.agregarStocks = 100
+PantalonesCuadriculados.ponerEnVenta = 50
+camisaRayada.agregarStocks = 100
+camisaRayada.ponerEnVenta = 50
+conjuntoBerMorado.agregarStocks = 100
+conjuntoBerMorado.ponerEnVenta = 50
+conjuntoNegro.agregarStocks = 100
+conjuntoNegro.ponerEnVenta = 50
+camisaMangas.agregarStocks = 100
+camisaMangas.ponerEnVenta = 50
+PantalonCaqui.agregarStocks = 100
+PantalonCaqui.ponerEnVenta = 50
+VaquerosBer.agregarStocks = 100
+VaquerosBer.ponerEnVenta = 50
+shortsBlancosBer.agregarStocks = 100
+shortsBlancosBer.ponerEnVenta = 50
