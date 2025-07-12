@@ -1,7 +1,6 @@
 /*==============================================================***CSS***========================================================================================*/
 html{
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  font-style: italic;
   margin: 0;
   position: relative;
 }
@@ -77,6 +76,7 @@ body{
   text-align: center;
   border-radius: 8px;
   background-color: white;
+  color: black;
 }
 .producto-card2 img {
   width: 100%;
@@ -126,45 +126,69 @@ body{
   left: 0;
 }
 #ventanaFiltrarr2{
-  display: flex;
+  display: grid;
+  grid-template-rows: 20% 80%;
+  grid-template-columns: 20% 40% 40%;
   box-sizing: border-box;
   position: fixed;
   top: 0;
-  right: -1200px;
-  width: 1200px;
-  height: 100%;
+  right: -800px;
+  width: 800px;
+  height: 80%;
   background-color:rgb(226, 226, 226);
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.5);
-  transition: left 0.5s ease;
+  transition: right 0.5s ease;
   padding: 20px;
   z-index: 999;
   color: rgb(8, 8, 8);
   border-radius: 7px;
   flex-direction: column;
-  justify-content: space-between;
+  padding: 0;
+  grid-template-areas: 
+    "espacioButtCarro espacioTextCarro espacioTextCarro"
+    "espacioContCarro espacioContCarro espacioContCarro";
+
 }
 #ventanaFiltrarr2.mostrar2{
   right: 0;
 }
 #ventanaCarroID{
   display: flex;
-  margin: 80px;
+  margin: 10px;
   gap: 15px;
   flex-flow: row-reverse wrap;
   overflow: scroll;
   justify-content: center;
+  align-items: center;
+  color: black;
+  background-color: rgb(223, 219, 214);
+  grid-area: espacioContCarro;
 }
-#ventanaFiltrarr2 > button{
-  color:black;
-  width: 90px;
-  height: 35px;
-  margin: 20px;
+#carritoButtons{
+  background-color: #999897;
+  display: flex;
+  flex-flow: column nowrap;
+  grid-area: espacioButtCarro;
+}
+#carritoButtons > button{
+  width: fit-content;
+  margin: 10px;
+  padding: 5px;
   border-radius: 5px;
   transition: background-color 0.3s ease;
 }
-#ventanaFiltrarr2 > button:hover{
-  background-color:#afceda;
+#carritoButtons > button:hover{
+   background-color:#afceda;
   cursor: pointer;
+}
+#carritoP{
+  background-color: #999897;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-area: espacioTextCarro;
+  color: black;
+  font-size: 2rem;
 }
 #ventanaFiltrarr > button {
   font-size: 15px;
@@ -248,7 +272,7 @@ body{
   
 }
 #textoCarrito{
-  font-size: 5rem;
+  font-size: 2rem;
 }
 #containerAlerta{
   margin: 0;
@@ -272,6 +296,6 @@ body{
     transform: translateY(0px);
   }
   to{
-    transform: translateX(1500px);
+    transform: translateX(1550px);
   }
 }

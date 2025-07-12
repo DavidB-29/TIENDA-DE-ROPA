@@ -16,9 +16,10 @@ const botonOcultarVentCarr = document.getElementById("botonOcultarVC")
 const vaciarCarrito = document.getElementById("vaciarCarritoID")
 const textoCarro = document.getElementById("textoCarrito")
 
+
 ocultarAlerta.addEventListener("click", ()=>{
     pruebaDiv.style.display = "none";
-    botonCarrito.classList.remove("carritoCargado")
+    setTimeout(() => botonCarrito.classList.remove("carritoCargado"), 2000)
 })
 
 
@@ -35,12 +36,17 @@ botonCarrito.addEventListener("click", ()=>{
 botonOcultarVentCarr.addEventListener("click", ()=>{
     ventanaFiltrar2.classList.remove("mostrar2")
 })
+
 vaciarCarrito.addEventListener("click", ()=>{
     ventanaCarro.innerHTML = "";
     ventanaCarro.append(textoCarro)
     textoCarro.innerHTML = "Carrito Vacio"
-    botonCarrito.classList.remove("carritoCargado")
 })
+function carritoVacio(){
+    if(ventanaCarro.childElementCount < 2){
+        textoCarro.innerText = "Carrito Vacio"
+    }
+}
 
 /*=================================================MÉTODOS PARA LOS PRODUCTOS=======================================================*/
 
@@ -48,6 +54,7 @@ class Métodos{
     #existencias = 0
     #enVenta = 0
     clon = ""
+
     mostrarExistencias(){
         textoAlerta.innerHTML = ""
         textoAlerta.innerHTML = `La cantidad de existencias actuales de ${this.Name} es de ${this.#existencias}`
@@ -78,6 +85,7 @@ class Métodos{
         this.#existencias -= value
     }
         agregarCarrito(boton){
+        let clon
         textoAlerta.innerHTML = ""
         textoAlerta2.innerHTML = ""
         textoConfirmar.innerHTML = ""
@@ -90,15 +98,22 @@ class Métodos{
             textoAlerta.innerHTML = `Has agregado 1 ${this.Descripción} a tu carrito`
             this.#enVenta--
             const divProducto = boton.closest(".producto-card");
-             this.clon = divProducto.cloneNode(true);
-             this.clon.classList.remove("producto-card")
-            this.clon.classList.add("producto-card2")
-            const botonEliminar = this.clon.querySelector(".botonAddtoCarro");
+             clon = divProducto.cloneNode(true);
+            clon.classList.remove("producto-card")
+            clon.classList.add("producto-card2")
+            const botonEliminar = clon.querySelector(".botonAddtoCarro");
+            console.log(clon)
             if (botonEliminar) {
-            botonEliminar.remove();
+                const moveToCarro = document.createElement("button")
+                moveToCarro.innerText = "Eliminar del Carrito"
+                moveToCarro.addEventListener("click", () =>{
+                clon.remove()
+                carritoVacio()
+                })
+            botonEliminar.replaceWith(moveToCarro)
             }
             textoCarro.innerHTML = ""
-            ventanaCarro.append(this.clon)
+            ventanaCarro.append(clon)
             botonCarrito.classList.add("carritoCargado")
         }
     }
